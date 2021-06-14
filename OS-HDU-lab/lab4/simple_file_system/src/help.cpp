@@ -1,8 +1,7 @@
 #include "stdio.h"
-void help()
-{
+void help() {
     printf("\n");
-    printf("-----------------------help------------\n");
+    printf("-----------------------help---------------\n");
     printf("format         :-------Format The Disk.\n");
     printf("exit           :-------Exit OS File System\n");
     printf("cd     dirname :-------Change Directory\n");
@@ -16,5 +15,5 @@ void help()
     printf("open   filename:-------Open File\n");
     printf("close  fd      :-------Close File\n");
     printf("open_path\n");
-    printf("--------------------------------------\n\n");
+    printf("------------------------------------------\n\n");
 }
