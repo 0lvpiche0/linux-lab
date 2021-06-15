@@ -16,6 +16,7 @@ void my_rm() {
         break;
     }
 }
+
 int _my_rm(const std::string &filename) {
     FCB *fcb = findDirFile(filename, true);
     if (fcb == NULL) return NOTFOUND;

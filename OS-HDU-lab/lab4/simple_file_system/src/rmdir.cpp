@@ -50,5 +50,6 @@ int _my_rmdir(const std::string &dirname) {
         }
     }
     freeDir(dir);
+    fcb->in_use = false;
     return OK;
 }

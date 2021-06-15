@@ -22,7 +22,7 @@
 
 #define diskToDir(BlocNum) (DirFile *)disk->data[(BlocNum) - OFFSET]
 #define diskToFcb(BlocNum) (FCB *) disk->data[(BlocNum) - OFFSET]
-#define diskToChar(BlockNum) (char *) disk->data[(BlockNum) - OFFSET];
+#define diskToChar(BlockNum) (char *) disk->data[(BlockNum) - OFFSET]
 
 // 命令
 // #define CMD_LEN     16
@@ -105,6 +105,9 @@ std::array<std::string, 2> pathSubstr_2(const std::string &path);
 // 找到目录或者文件，找不到返回NULL，找到返回FCB
 FCB *findDirFile(const std::string &name, bool isFile);
 // int findDirFile_F(const std::string &name);
+
+// 从BlockNum开始跳转n次
+unsigned short jumpBlock(unsigned short BlockNum, int n);
 
 inline void freeBlock(unsigned short BlockNum);
 

@@ -41,16 +41,38 @@ void _my_read(int fd, unsigned short len) {
     std::string r_str;
     unsigned short remain_len = fcb.length - openfilelist[fd].count;
     unsigned short r_len = len > remain_len ? remain_len : len;
-    do_read(fd, r_len, r_str);
+    _do_read(fd, r_len, r_str);
+    std::cout<<r_str<<std::endl;
 }
 
 
-
-int do_read(int fd, unsigned short len, std::string &text) {
-    // unsigned short _n = openfilelist[]
-    // char *r = diskToChar(openfilelist[fd].fcb.first);
-    // while () {
-        
-    // }
+unsigned short _do_read(int fd, unsigned short len, std::string &text) {
+    USEROPEN *useropen = &openfilelist[fd];
+    if (len > useropen->fcb.length - useropen->count) 
+        len = useropen->fcb.length - useropen->count;
+    unsigned short res = len;
+    unsigned short n = useropen->count / BLOCKSIZE;
+    unsigned short m =  useropen->count % BLOCKSIZE;
+    unsigned short BlockNum = jumpBlock(useropen->fcb.first, n);
+    if (len >= BLOCKSIZE - m) {
+        text = std::string{diskToChar(BlockNum) + m, diskToChar(BlockNum + 1)};
+        len -= BLOCKSIZE - m;
+        useropen->count  += BLOCKSIZE - m;
+        BlockNum = jumpBlock(BlockNum, 1); 
+    } else {
+        text = std::string{diskToChar(BlockNum) + m, diskToChar(BlockNum) + m + len};
+        useropen->count += len;
+        return res;
+    }
+    while (len - BLOCKSIZE >= 0) {
+        text += std::string{diskToChar(BlockNum), diskToChar(BlockNum + 1)};
+        useropen->count  += BLOCKSIZE;
+        BlockNum = jumpBlock(BlockNum, 1); 
+    }
+    if (len > 0) {
+        text += std::string{diskToChar(BlockNum), diskToChar(BlockNum) + len};
+        useropen->count  += len; 
+    } 
+    return res;
 }
 
