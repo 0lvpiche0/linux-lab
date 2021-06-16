@@ -32,7 +32,7 @@ int _my_cd(const std::string &dirname) {
     } else {
         currentdir += dirname;
     }
-    ptrcuridr.fcb = *fcb;
+    ptrcuridr.fcb = fcb;
     ptrcuridr.dir = currentdir;
     return OK;
 }

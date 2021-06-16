@@ -15,13 +15,13 @@ inline void freeBlock(unsigned short BlockNum) {
 void freeFile(FCB *fcb) {
     unsigned short BlockNum = fcb->first;
     while (disk->busy[BlockNum] != BlockNum) {
-        int temp = disk->busy[BlockNum];
+        unsigned short temp = disk->busy[BlockNum];
         freeBlock(BlockNum);
         BlockNum = temp;
     }
+    freeBlock(BlockNum);
     fcb->first = 0;
     fcb->in_use = false;
-    freeBlock(BlockNum);
 }
 
 // 释放目录下所有数据包括文件,注意不会将指向该目录的FCB更改

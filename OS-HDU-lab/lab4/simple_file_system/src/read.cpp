@@ -37,9 +37,9 @@ void my_read() {
 }
 
 void _my_read(int fd, unsigned short len) {
-    FCB fcb = openfilelist[fd].fcb;
+    FCB *fcb = openfilelist[fd].fcb;
     std::string r_str;
-    unsigned short remain_len = fcb.length - openfilelist[fd].count;
+    unsigned short remain_len = fcb->length - openfilelist[fd].count;
     unsigned short r_len = len > remain_len ? remain_len : len;
     _do_read(fd, r_len, r_str);
     std::cout<<r_str<<std::endl;
@@ -48,12 +48,12 @@ void _my_read(int fd, unsigned short len) {
 
 unsigned short _do_read(int fd, unsigned short len, std::string &text) {
     USEROPEN *useropen = &openfilelist[fd];
-    if (len > useropen->fcb.length - useropen->count) 
-        len = useropen->fcb.length - useropen->count;
+    if (len > useropen->fcb->length - useropen->count) 
+        len = useropen->fcb->length - useropen->count;
     unsigned short res = len;
     unsigned short n = useropen->count / BLOCKSIZE;
     unsigned short m =  useropen->count % BLOCKSIZE;
-    unsigned short BlockNum = jumpBlock(useropen->fcb.first, n);
+    unsigned short BlockNum = jumpBlock(useropen->fcb->first, n);
     if (len >= BLOCKSIZE - m) {
         text = std::string{diskToChar(BlockNum) + m, diskToChar(BlockNum + 1)};
         len -= BLOCKSIZE - m;

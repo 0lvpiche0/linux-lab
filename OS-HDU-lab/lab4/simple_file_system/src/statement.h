@@ -160,12 +160,12 @@ struct DISK {
 };
 
 struct USEROPEN {
-    FCB fcb;
+    FCB *fcb;
     std::string dir;//相应打开文件所在的目录名
     unsigned short count;//读写指针在文件的位置
     bool fcbstate;//是否修改了文件的FCB内容，修改了置为1,否则置为0
     bool topenfile;//表示是否打开表项，true就是被占用,false就是没有被占用
-    void init(const FCB &fcb, const std::string &dir) {
+    void init(FCB *fcb, const std::string &dir) {
         this->fcb = fcb;
         this->dir = dir;
         count = 0;

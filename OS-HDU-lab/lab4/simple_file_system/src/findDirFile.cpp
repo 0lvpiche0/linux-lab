@@ -34,7 +34,7 @@ FCB *findDirFile(const std::string &name, bool isFile) {
     auto q = pathSubstr(name);
     DirFile *dir = now_dir;
     if (q.front() == "/") {
-        dir = diskToDir(openfilelist->fcb.first);
+        dir = diskToDir(openfilelist->fcb->first);
         q.pop();
     }
     // unsigned short BlockNum = p->fcb.first;

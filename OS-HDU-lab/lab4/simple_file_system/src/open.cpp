@@ -33,7 +33,7 @@ int _my_open(const std::string &filename) {
     if (fd == -1) return NO_FREE_OPEN ;
     auto it = filename.end() - 1;
     for (; *it != '/' && it != filename.begin(); it--) ;
-    if (filename[0] == '/') openfilelist[fd].init(*fcb, std::string{filename.begin() + 1, filename.end()});
-    else openfilelist[fd].init(*fcb, currentdir + std::string{it, filename.end()});
+    if (filename[0] == '/') openfilelist[fd].init(fcb, std::string{filename.begin() + 1, filename.end()});
+    else openfilelist[fd].init(fcb, currentdir + std::string{it, filename.end()});
     return fd;
 }

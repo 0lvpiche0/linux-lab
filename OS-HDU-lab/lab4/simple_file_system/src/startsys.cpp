@@ -10,9 +10,12 @@ extern std::queue<unsigned short> free_q;
 
 void mount_home() {
     memset(openfilelist,0,sizeof(openfilelist));
-    openfilelist->fcb.first = 2;
+    openfilelist->fcb = new FCB;
+    openfilelist->fcb->first = 2;
     openfilelist->topenfile = true;
-    strcpy(openfilelist->fcb.filename, "home");
+    strcpy(openfilelist->fcb->filename, "home");
+    openfilelist->fcb->attribute = false;
+    openfilelist->fcb->in_use = true;
 
 }
 
