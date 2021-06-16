@@ -1,6 +1,6 @@
 #ifndef _STATEMENT_H_
 #define _STATEMENT_H_
-
+# include "cmd.h"
 /* lvpiche */
 
 #include <string>
@@ -52,15 +52,17 @@ struct USEROPEN;
 #define EXNAME_LEN   4
 // 最多打开多少个文件
 #define MAXOPENFILE  16
-// ok
+
+int _my_create(const std::string& filename);
+
 void _my_help();
-// ok
+
 void _my_startsys();
-// ok
+
 void _my_format();
-// ok
+
 int _my_cd(const std::string &dirname);
-// ok
+
 int _my_mkdir(const std::string &dirname);
 
 int _my_rmdir(const std::string &dirname);
@@ -71,15 +73,15 @@ int _my_rm(const std::string &filename);
 
 int _my_open(const std::string &filename);
 
-void _my_close(int fd);
+void _my_close(const unsigned short fd);
 
-void _my_write(int fd);
+void _my_write(const unsigned short fd);
 
-unsigned short _do_write(const int fd, const std::string &text, const int len, const char wstyle);
+unsigned short _do_write(const unsigned short fd, const std::string &text, const char wstyle);
 
-void _my_read(int fd, unsigned short len);
+void _my_read(const unsigned short fd, unsigned short len);
 
-unsigned short _do_read(int fd, unsigned short len, std::string &text);
+unsigned short _do_read(const unsigned short fd, unsigned short len, std::string &text);
 
 void _my_exitsys();
 
@@ -89,7 +91,7 @@ void _my_exitsys();
 int findFreeOpen();
 
 // 检测是否dir已存在该目录或文件
-int checkPresence(DirFile *dir, bool isFile,std::string filename);
+int checkPresence(DirFile *dir, bool isFile, const std::string &filename);
 
 // 找该目录下空闲的FCB
 int findDirFreeAddr(DirFile *p);
@@ -109,7 +111,7 @@ FCB *findDirFile(const std::string &name, bool isFile);
 // 从BlockNum开始跳转n次
 unsigned short jumpBlock(unsigned short BlockNum, int n);
 
-inline void freeBlock(unsigned short BlockNum);
+void freeBlock(unsigned short BlockNum);
 
 void freeFile(FCB *fcb);
 
@@ -144,7 +146,7 @@ struct DirFile {
         //给根目录创建.. 和 .  序号0放".", 序号1放".."
         memset(fcb,0,sizeof(fcb));
         fcb[1].in_use=fcb[0].in_use=true;
-        fcb[1].attribute=fcb[0].attribute=true;
+        fcb[1].attribute=fcb[0].attribute=false;
         fcb[1].first=father;
         fcb[0].first=self;
         memcpy(fcb[0].filename, ".",sizeof("."));

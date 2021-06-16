@@ -34,7 +34,7 @@ void my_ls();
 
 // 创建文件
 void my_create();
-void _my_create(int fd);
+
 // 删除文件
 void my_rm();
 

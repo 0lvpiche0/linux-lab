@@ -8,6 +8,7 @@ extern std::string currentdir;
 
 
 void my_open() {
+    // printf("it is open\n");
     std::string str;
     std::cin>>str;
     if (str == "") {
@@ -27,6 +28,10 @@ void my_open() {
 
 int _my_open(const std::string &filename) {
     FCB *fcb = findDirFile(filename, true);
+    for (unsigned short i = 0; i < MAXOPENFILE; i++) {
+        if (openfilelist[i].topenfile && fcb == openfilelist[i].fcb) 
+            return i;
+    }
     if (fcb == NULL) return NOTFOUND;
     int fd = findFreeOpen();
     // 找不到空闲的加载

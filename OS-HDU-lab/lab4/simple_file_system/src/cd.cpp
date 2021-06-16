@@ -7,6 +7,7 @@ extern DISK *disk;
 extern std::string currentdir;;
 
 void my_cd() {
+    // printf("it is cd\n");
     std::string str;
     std::cin>>str;
     switch (_my_cd(str)) {
@@ -25,6 +26,7 @@ void my_cd() {
 // 完成
 int _my_cd(const std::string &dirname) {
     auto arr = pathSubstr_2(dirname);
+    // std::cout<<arr[0]<<'\t'<<arr[1]<<std::endl;
     FCB *fcb = findDirFile(dirname, false);
     if (fcb == NULL) return NOTFOUND;
     if (dirname[0] == '/') {

@@ -1,11 +1,11 @@
-#include <statement.h>
+#include "statement.h"
 #include <queue>
 
 extern void _my_format();
 extern char *myvhead;
 extern DISK *disk;
 extern USEROPEN openfilelist[MAXOPENFILE];
-extern USEROPEN *ptrcuridr;
+extern USEROPEN ptrcuridr;
 extern std::queue<unsigned short> free_q;
 
 void mount_home() {
@@ -44,6 +44,6 @@ void _my_startsys() {
     // 初始化空闲块队列
     for (size_t i = 0; i < BLOCKCOUNT; i++) 
         if (!disk->busy[i]) free_q.push(i);
-    ptrcuridr = openfilelist;
+    ptrcuridr = *openfilelist;
     printf("The file system has been loaded, please input the command\n");
 }

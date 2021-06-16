@@ -11,7 +11,10 @@ array<string, 2> pathSubstr_2(const string &path) {
         arr[0] = "/";
     } else {
         arr[0] = string{path.begin(), it};
-        arr[1] = string{it + 1, path.end()};
+        if (*it == '/')
+            arr[1] = string{it + 1, path.end()};
+        else 
+            arr[1] = string{it, path.end()};
     }
     return arr;
 }

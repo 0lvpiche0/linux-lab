@@ -8,6 +8,7 @@ extern std::queue<unsigned short> free_q;
 // 释放这一块
 inline void freeBlock(unsigned short BlockNum) {
     disk->busy[BlockNum] = 0;
+    
     free_q.push(BlockNum);
 }
 
@@ -28,31 +29,20 @@ void freeFile(FCB *fcb) {
 void freeDir(DirFile *dir) {
     for (unsigned short i = 0; i < FCBCOUNT; i++) {
         if (dir->fcb[i].in_use)
-        switch (dir->fcb[i].attribute) {
-        case true:
+        if (dir->fcb[i].attribute) {
             freeFile(&(dir->fcb[i]));
-            break;
-        case false:
+        } else {
             freeDir(diskToDir(dir->fcb[i].first));
-            break;
-        default:
-            printf("wo jue de bu tai keneng\n");
-            break;
-        }
+        }      
     }
 }
 
 // 建议使用，将fcb至于未使用状态，fcb指向的数据释放
 void freeFCB(FCB *fcb) {
-    switch (fcb->attribute) {
-    case true:
+    if (fcb->in_use)
+    if (fcb->attribute) {
         freeFile(fcb);
-        break;
-    case false:
+    } else {
         freeDir(diskToDir(fcb->first));
-        fcb->in_use = false;
-    default:
-        printf("errrrrr\n");
-        return ;
-    }
+    }  
 }

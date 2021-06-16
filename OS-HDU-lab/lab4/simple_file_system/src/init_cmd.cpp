@@ -1,9 +1,9 @@
 #include "statement.h"
-#include <map>
+#include <unordered_map>
 #include "cmd.h"
 #include <string>
 
-extern std::map<std::string, cmd_fun> cmdMap;
+extern std::unordered_map<std::string, cmd_fun> cmdMap;
 
 void init_cmd() {
 #ifdef CMD_HELP

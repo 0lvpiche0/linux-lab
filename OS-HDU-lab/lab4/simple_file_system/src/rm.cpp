@@ -2,6 +2,7 @@
 #include <iostream>
 
 void my_rm() {
+    // printf("it is rm\n");
     std::string str;
     std::cin>>str;
     switch (_my_rm(str)) {

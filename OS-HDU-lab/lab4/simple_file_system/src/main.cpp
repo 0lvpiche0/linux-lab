@@ -24,18 +24,24 @@ string currentdir;
 
 int main() {
     printf("Welcome the lvpiche FileSystem\n");
-    printf("------------------------------\n");
     my_startsys();
     string cmd;
     init_cmd();
+    int i = 0;
     while (sys_flag) {
+        // printf("input command\n");
+        if (cin.fail()) {
+            cin.clear();//清除std::cin的错误状态
+            cin.sync();//清空输入缓冲区 
+        }
         cin>>cmd;
-        auto &&tmp = cmdMap.find(cmd);
+        auto tmp = cmdMap.find(cmd);
         if (tmp != cmdMap.end()) {
             cmdMap[cmd]();
         } else {
             cout<<"Invalid command, input `help` for more information"<<endl;
         }
+        cmd = "";
     } 
     return 0;
 }

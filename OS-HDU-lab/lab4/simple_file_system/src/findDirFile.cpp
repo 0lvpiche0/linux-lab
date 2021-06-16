@@ -1,8 +1,8 @@
 #include "statement.h"
-extern DirFile *now_dir; 
+extern USEROPEN ptrcuridr;
 extern USEROPEN openfilelist[MAXOPENFILE];
 extern DISK *disk;;
-
+#include <iostream>
 
 // int findDirFile_F(const std::string &name) {
 //     auto q = pathSubstr(name);
@@ -32,14 +32,17 @@ extern DISK *disk;;
 FCB *findDirFile(const std::string &name, bool isFile) {
     
     auto q = pathSubstr(name);
-    DirFile *dir = now_dir;
-    if (q.front() == "/") {
-        dir = diskToDir(openfilelist->fcb->first);
+    DirFile *dir = diskToDir(ptrcuridr.fcb->first);
+    if (q.front() == "/" || q.front() == "home") {
         q.pop();
+        // std::cout<<q.front()<<std::endl;
+        if (q.empty()) return openfilelist->fcb;
+        dir = diskToDir(openfilelist->fcb->first);
     }
     // unsigned short BlockNum = p->fcb.first;
     std::string temp;
     while (q.size() != 1) {
+        // std::cout<<q.front()<<std::endl;
         temp = q.front();
         q.pop();
         bool flag = false;

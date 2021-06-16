@@ -8,6 +8,7 @@ extern DISK *disk;
 extern std::queue<unsigned short> free_q;
 
 void my_mkdir() {
+    // printf("it is mkdir\n");
     std::string str;
     std::cin>>str;
     switch (_my_mkdir(str)){
@@ -33,11 +34,11 @@ void my_mkdir() {
 int _my_mkdir(const std::string &dirname) {
     auto dir_q = pathSubstr(dirname);
     DirFile *dir;
-    if (dir_q.front() == "/") {
-        dir = diskToDir(openfilelist->fcb.first);
+    if (dir_q.front() == "/" || dir_q.front() == "home") {
+        dir = diskToDir(openfilelist->fcb->first);
         dir_q.pop();
     } else {
-        dir = diskToDir(ptrcuridr.fcb.first);
+        dir = diskToDir(ptrcuridr.fcb->first);
     }
     bool flag = false;
     while (!dir_q.empty()) {
@@ -57,6 +58,7 @@ int _my_mkdir(const std::string &dirname) {
         } else {
             dir = diskToDir(dir->fcb[addr].first);
         }
+        dir_q.pop();
     }
     if (flag) return OK;
     return EXIST;

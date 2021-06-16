@@ -7,6 +7,7 @@ extern DISK *disk;
 extern std::queue<unsigned short> free_q;
 
 void my_rmdir() {
+    // printf("it is rmdir\n");
     std::string str;
     std::cin>>str;
     switch (_my_rmdir(str)) {

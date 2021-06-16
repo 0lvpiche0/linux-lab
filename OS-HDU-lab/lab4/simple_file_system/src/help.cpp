@@ -1,5 +1,5 @@
-#include "stdio.h"
-void help() {
+#include <cstdio>
+void my_help() {
     printf("\n");
     printf("-----------------------help---------------\n");
     printf("format         :-------Format The Disk.\n");
@@ -7,13 +7,12 @@ void help() {
     printf("cd     dirname :-------Change Directory\n");
     printf("mkdir  dirname :-------Make Directory.\n");
     printf("rmdir  dirname :-------Delete Directory.\n");
-    printf("ls     dirname :-------List Directory .\n");
+    printf("ls             :-------List Directory .\n");
     printf("creat  filename:-------Creat File\n");
-    printf("write  fd      :-------Wirte File\n");
-    printf("read   fd      :-------Read File\n");
+    printf("write  filename:-------Wirte File\n");
+    printf("read   filename:-------Read File\n");
     printf("rm     filename:-------Remove File\n");
     printf("open   filename:-------Open File\n");
-    printf("close  fd      :-------Close File\n");
-    printf("open_path\n");
+    printf("close  filename:-------Close File\n");
     printf("------------------------------------------\n\n");
 }

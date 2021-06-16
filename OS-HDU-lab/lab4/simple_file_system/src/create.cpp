@@ -3,9 +3,11 @@
 #include <iostream>
 
 extern std::queue<unsigned short> free_q;
+extern USEROPEN ptrcuridr;
 extern DISK *disk;
 
 void my_create() {
+    // printf("it is create\n");
     std::string str;
     std::cin>>str;
     switch (_my_create(str)) {
@@ -29,11 +31,17 @@ void my_create() {
     }
 }
 
+#include <iostream>
 int _my_create(const std::string& filename) {
-    auto arr = pathSubstr_2(filename);
-    FCB *fcb = findDirFile(arr[0], false);
-    if (fcb == NULL) return NOTFOUND;
     if (filename.length() > FILENAME_LEN) return INCORRECT_INPUT;
+    auto arr = pathSubstr_2(filename);
+    FCB *fcb;
+    if (arr[0] == "") {
+        fcb = ptrcuridr.fcb;
+    } else {
+        fcb = findDirFile(arr[0], false);
+        if (fcb == NULL) return NOTFOUND;
+    }
     DirFile *dir = diskToDir(fcb->first);
     if (checkPresence(dir, true, filename) != NOTFOUND) return EXIST;
     int addr = findDirFreeAddr(dir); 

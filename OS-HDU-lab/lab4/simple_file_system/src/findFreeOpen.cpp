@@ -1,5 +1,5 @@
 #include "statement.h"
-USEROPEN openfilelist[MAXOPENFILE];
+extern USEROPEN openfilelist[MAXOPENFILE];
 
 int findFreeOpen() {
     int addr = -1;
