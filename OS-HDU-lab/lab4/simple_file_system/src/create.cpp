@@ -52,6 +52,5 @@ int _my_create(const std::string& filename) {
     disk->busy[temp] = temp;
     dir->fcb[addr].init(arr[1].c_str(), temp, true);
     // debug
-    printf("%d\n", dir->fcb[addr].length);
     return OK;
 }

@@ -101,7 +101,7 @@ int main() {
         if (my_fork(i+1) == -1) printf("%d fork erroe\n", i);
         else count += (i+1) * 2;
     }
-    for (int i = 0; i < MAX_CHILD_PROCESS; i++) wait(0);
+    // for (int i = 0; i < MAX_CHILD_PROCESS; i++) wait(0);
     close(pipedes[WRITE]);
     printf("%d条信息\n", count);
     char buf[1024];

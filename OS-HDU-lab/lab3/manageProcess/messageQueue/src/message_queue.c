@@ -36,6 +36,7 @@ void *sender(void *args) {
     char exit_info[10];
     sprintf(exit_info, "end%d", thread_arg);
     int flag = 1;
+    
     while (flag) {
         sem_wait(io_mutex);
         printf("%s\t, please input message(len less 1024):\n", thread_info_input);
@@ -57,8 +58,8 @@ void *sender(void *args) {
         // sem_post(io_mutex);
     }
     // memset(msg.mtext, 0, sizeof(msg.mtext));
-    sem_wait(io_mutex);
     msgrcv(msgid,&msg,MAX_MESSAGE,thread_arg,0);
+    sem_wait(io_mutex);
     printf("%s, receive %s, exit\n", thread_info_input, msg.mtext );
     sem_post(io_mutex);
     exit(0);
