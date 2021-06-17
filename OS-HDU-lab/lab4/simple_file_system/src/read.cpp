@@ -80,7 +80,7 @@ unsigned short _do_read(const unsigned short fd , unsigned short len, std::strin
     USEROPEN *useropen = &openfilelist[fd];
     // printf("count %d\n", useropen->count);
     // printf("len :%d\n", len);
-    printf("useropen->fcb->length %d\n", useropen->fcb->length);
+    // printf("useropen->fcb->length %d\n", useropen->fcb->length);
     unsigned short m;
     unsigned short BlockNum;
     switch (wstyle) {
@@ -88,14 +88,14 @@ unsigned short _do_read(const unsigned short fd , unsigned short len, std::strin
         BlockNum = useropen->fcb->first;
         if (len > useropen->fcb->length)
             len = useropen->fcb->length;
-        printf("useropen->fcb->len %d\n", len);
+        // printf("useropen->fcb->len %d\n", len);
         openfilelist[fd].count = 0;
         m = 0;
         break;
     case 'w':
         m =  useropen->count % BLOCKSIZE;
         // debug
-        printf("count :%d\n", useropen->count);
+        // printf("count :%d\n", useropen->count);
         BlockNum = jumpBlock(useropen->fcb->first, useropen->count / BLOCKSIZE);
         if (len > useropen->fcb->length - useropen->count) 
             len = useropen->fcb->length - useropen->count;
@@ -104,23 +104,23 @@ unsigned short _do_read(const unsigned short fd , unsigned short len, std::strin
         return 0;
     }
     unsigned short res = len;
-    printf("111 useropen->fcb->len %d\n", len);
+    // printf("111 useropen->fcb->len %d\n", len);
     if (len >= BLOCKSIZE - m) {
-        printf("if useropen->fcb->len %d\n", len);
+        // printf("if useropen->fcb->len %d\n", len);
         text = std::string{diskToChar(BlockNum) + m, diskToChar(BlockNum + 1)};
         len -= BLOCKSIZE - m;
         useropen->count  += BLOCKSIZE - m;
         BlockNum = jumpBlock(BlockNum, 1); 
     } else {
         // debug
-        printf("else m :%d\t len :%d\n", useropen->count, len);
+        // printf("else m :%d\t len :%d\n", useropen->count, len);
         text = std::string{diskToChar(BlockNum) + m, diskToChar(BlockNum) + m + len};
         // std::cout<<"m:"<<m<<" len:"<<len<<std::endl;
         useropen->count += len;
         return res;
     }
     while (len - BLOCKSIZE >= 0) {
-        printf("useropen->fcb->len %d\n", len);
+        // printf("useropen->fcb->len %d\n", len);
         text += std::string{diskToChar(BlockNum), diskToChar(BlockNum + 1)};
         useropen->count  += BLOCKSIZE;
         BlockNum = jumpBlock(BlockNum, 1); 

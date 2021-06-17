@@ -91,6 +91,7 @@ unsigned short _do_write(const unsigned short fd, const std::string &text, const
         case 'o':
             BlockNum = jumpBlock(fcb->first, openfilelist[fd].count / BLOCKSIZE);
             temp = disk->busy[BlockNum];
+            disk->busy[BlockNum] = BlockNum;
             while (disk->busy[temp] != temp) {
                 unsigned short temp2 = disk->busy[temp];
                 freeBlock(temp);
@@ -98,7 +99,6 @@ unsigned short _do_write(const unsigned short fd, const std::string &text, const
             }
             freeBlock(temp);
             fcb->length = openfilelist[fd].count;
-            disk->busy[BlockNum] = BlockNum;
             m = openfilelist[fd].count % BLOCKSIZE; 
             break;
         case 'a': 
@@ -134,7 +134,7 @@ unsigned short _do_write(const unsigned short fd, const std::string &text, const
         it += BLOCKSIZE;
     }
     // debug
-    printf("it :%d\n", it);
+    // printf("it :%d\n", it);
     // std::cout<<it<<std::endl;
     // printf("while\n");
     // getchar();
@@ -160,9 +160,9 @@ unsigned short _do_write(const unsigned short fd, const std::string &text, const
     // printf("if\n");
     // getchar();
     // debug
-    printf("it :%d\n", it);
+    // printf("it :%d\n", it);
         // debug
-    printf("count :%d\n", openfilelist[fd].count);
+    // printf("count :%d\n", openfilelist[fd].count);
     openfilelist[fd].count += it;
     openfilelist[fd].fcb->length += it;
     return it;
