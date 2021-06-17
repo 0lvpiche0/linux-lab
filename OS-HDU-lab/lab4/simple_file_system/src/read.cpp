@@ -68,8 +68,6 @@ void _my_read(const unsigned short fd, unsigned short len, const char wstyle) {
 unsigned short _do_read(const unsigned short fd , unsigned short len, std::string &text, const char wstyle) {
     USEROPEN *useropen = &openfilelist[fd];
     // printf("count %d\n", useropen->count);
-    if (len > useropen->fcb->length - useropen->count) 
-        len = useropen->fcb->length - useropen->count;
     // printf("len :%d\n", len);
     unsigned short res = len;
     unsigned short m;
@@ -77,11 +75,15 @@ unsigned short _do_read(const unsigned short fd , unsigned short len, std::strin
     switch (wstyle) {
     case 'h':
         BlockNum = useropen->fcb->first;
+        if (len > useropen->fcb->length)
+            len = useropen->fcb->length;
         m = 0;
         break;
     case 'w':
         m =  useropen->count % BLOCKSIZE;
         BlockNum = jumpBlock(useropen->fcb->first, useropen->count / BLOCKSIZE);
+        if (len > useropen->fcb->length - useropen->count) 
+            len = useropen->fcb->length - useropen->count;
         break;
     default:
         return 0;
@@ -93,7 +95,7 @@ unsigned short _do_read(const unsigned short fd , unsigned short len, std::strin
         BlockNum = jumpBlock(BlockNum, 1); 
     } else {
         text = std::string{diskToChar(BlockNum) + m, diskToChar(BlockNum) + m + len};
-        std::cout<<"m:"<<m<<" len:"<<len<<std::endl;
+        // std::cout<<"m:"<<m<<" len:"<<len<<std::endl;
         useropen->count += len;
         return res;
     }
