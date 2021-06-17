@@ -28,6 +28,7 @@
 // #define CMD_LEN     16
 #define CMD_HELP    "help"
 #define CMD_MKDIR   "mkdir"
+#define CMD_RMDIR   "rmdir"
 #define CMD_CD      "cd"
 #define CMD_EXIT    "exit"
 #define CMD_RM      "rm"
@@ -116,6 +117,7 @@ void freeBlock(unsigned short BlockNum);
 void freeFile(FCB *fcb);
 
 void freeDir(DirFile *dir);
+void freeFCB(FCB *fcb);
 
 // 文件描述块，如FILENAME_LEN为12则刚好能划分1024为32块
 struct FCB {

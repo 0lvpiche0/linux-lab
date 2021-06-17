@@ -29,7 +29,7 @@ int _my_rmdir(const std::string &dirname) {
     DirFile *dir = diskToDir(fcb->first);
     // 检测目录下是否有文件
     bool flag = false;
-    for (unsigned short i = 0; i < FCBCOUNT; i++) {
+    for (unsigned short i = 2; i < FCBCOUNT; i++) {
         if (dir->fcb[i].in_use) {
             flag = true;
             break;
@@ -39,7 +39,7 @@ int _my_rmdir(const std::string &dirname) {
         printf("There are files in the directory. Do you want to delete them all?\n");
         int input;
         again:
-        printf("Please input yes-1 / no-0");
+        printf("Please input yes-1 / no-0\n");
         scanf("%d", &input);
         switch (input) {
         case 0:
@@ -50,7 +50,7 @@ int _my_rmdir(const std::string &dirname) {
             goto again;
         }
     }
-    freeDir(dir);
+    freeFCB(fcb);
     fcb->in_use = false;
     return OK;
 }

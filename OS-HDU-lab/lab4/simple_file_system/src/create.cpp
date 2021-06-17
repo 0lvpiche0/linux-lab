@@ -31,7 +31,7 @@ void my_create() {
     }
 }
 
-#include <iostream>
+// #include <iostream>
 int _my_create(const std::string& filename) {
     if (filename.length() > FILENAME_LEN) return INCORRECT_INPUT;
     auto arr = pathSubstr_2(filename);
@@ -51,5 +51,7 @@ int _my_create(const std::string& filename) {
     free_q.pop();
     disk->busy[temp] = temp;
     dir->fcb[addr].init(arr[1].c_str(), temp, true);
+    // debug
+    printf("%d\n", dir->fcb[addr].length);
     return OK;
 }

@@ -27,7 +27,7 @@ void freeFile(FCB *fcb) {
 
 // 释放目录下所有数据包括文件,注意不会将指向该目录的FCB更改
 void freeDir(DirFile *dir) {
-    for (unsigned short i = 0; i < FCBCOUNT; i++) {
+    for (unsigned short i = 2; i < FCBCOUNT; i++) {
         if (dir->fcb[i].in_use)
         if (dir->fcb[i].attribute) {
             freeFile(&(dir->fcb[i]));

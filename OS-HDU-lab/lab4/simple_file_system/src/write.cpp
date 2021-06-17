@@ -130,9 +130,11 @@ unsigned short _do_write(const unsigned short fd, const std::string &text, const
         BlockNum = temp;
         disk->busy[BlockNum] = BlockNum;
         strncpy(diskToChar(BlockNum),text.substr(it, BLOCKSIZE).c_str(), m);
-        fcb->length += BLOCKSIZE;
+        // fcb->length += BLOCKSIZE;
         it += BLOCKSIZE;
     }
+    // debug
+    printf("it :%d\n", it);
     // std::cout<<it<<std::endl;
     // printf("while\n");
     // getchar();
@@ -157,7 +159,12 @@ unsigned short _do_write(const unsigned short fd, const std::string &text, const
     }
     // printf("if\n");
     // getchar();
+    // debug
+    printf("it :%d\n", it);
+        // debug
+    printf("count :%d\n", openfilelist[fd].count);
     openfilelist[fd].count += it;
+    openfilelist[fd].fcb->length += it;
     return it;
 }
 

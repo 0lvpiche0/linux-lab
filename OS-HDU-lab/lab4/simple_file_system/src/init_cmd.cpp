@@ -15,6 +15,9 @@ void init_cmd() {
 #ifdef CMD_READ
     cmdMap.insert(std::make_pair(CMD_READ, my_read));
 #endif
+#ifdef CMD_RMDIR
+    cmdMap.insert(std::make_pair(CMD_RMDIR, my_rmdir));
+#endif
 #ifdef CMD_WRITE
     cmdMap.insert(std::make_pair(CMD_WRITE, my_write));
 #endif
