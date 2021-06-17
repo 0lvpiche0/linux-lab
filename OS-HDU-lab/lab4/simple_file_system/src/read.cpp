@@ -29,23 +29,31 @@ void my_read() {
     }
     printf("How many bytes do you want to read from the file?\n");
     int len;
+    char wstyle;
     again:
     printf("Or input 0 if you want to read all bytes, input -1 if you don't read\n");
     scanf("%d", &len);
     if (len < -1) goto again;
+    wstyle_again:
     switch (len) {
     case -1:
         return;
     case 0:
-        _my_read(fd, -1);
+        printf("Read from head(h) or from the last place(w)\n");
+        std::cin>>wstyle;
+        if (wstyle != 'h' || wstyle != 'w') goto wstyle_again;
+        _my_read(fd, -1, wstyle);
         return ;
     default:
-        _my_read(fd, len);
+        printf("Read from head(h) or from the last place(w)\n");
+        std::cin>>wstyle;
+        if (wstyle != 'h' || wstyle != 'w') goto wstyle_again;
+        _my_read(fd, len, wstyle);
         return;
     }
 }
 
-void _my_read(const unsigned short fd, unsigned short len) {
+void _my_read(const unsigned short fd, unsigned short len, const char wstyle) {
     if (fd > MAXOPENFILE) return ;
     FCB *fcb = openfilelist[fd].fcb;
     if (!fcb->attribute) return ;
@@ -57,14 +65,24 @@ void _my_read(const unsigned short fd, unsigned short len) {
 }
 
 
-unsigned short _do_read(const unsigned short fd , unsigned short len, std::string &text) {
+unsigned short _do_read(const unsigned short fd , unsigned short len, std::string &text, const char wstyle) {
     USEROPEN *useropen = &openfilelist[fd];
     if (len > useropen->fcb->length - useropen->count) 
         len = useropen->fcb->length - useropen->count;
     unsigned short res = len;
-    unsigned short n = useropen->count / BLOCKSIZE;
-    unsigned short m =  useropen->count % BLOCKSIZE;
-    unsigned short BlockNum = jumpBlock(useropen->fcb->first, n);
+    unsigned short m;
+    unsigned short BlockNum;
+    switch (wstyle) {
+    case 'h':
+        BlockNum = useropen->fcb->first;
+        m = 0;
+        break;
+    case 'w':
+        m =  useropen->count % BLOCKSIZE;
+        BlockNum = jumpBlock(useropen->fcb->first, useropen->count / BLOCKSIZE);
+    default:
+        return 0;
+    }
     if (len >= BLOCKSIZE - m) {
         text = std::string{diskToChar(BlockNum) + m, diskToChar(BlockNum + 1)};
         len -= BLOCKSIZE - m;

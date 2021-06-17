@@ -112,8 +112,9 @@ unsigned short _do_write(const unsigned short fd, const std::string &text, const
     // getchar();
     unsigned short it = 0;
     if (m > 0) {
-        strncpy(diskToChar(BlockNum),text.substr(it, m).c_str(), m);
-        it = m;
+        unsigned short l = BLOCKSIZE - m > len ? len : BLOCKSIZE - m;
+        strncpy(diskToChar(BlockNum) + m,text.substr(0, l).c_str(), l);
+        it = l;
     }
     bool flag = false;
     while (len - it >= BLOCKSIZE) {
