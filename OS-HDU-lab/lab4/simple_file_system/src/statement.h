@@ -79,9 +79,9 @@ void _my_write(const unsigned short fd);
 
 unsigned short _do_write(const unsigned short fd, const std::string &text, const char wstyle);
 
-void _my_read(const unsigned short fd, unsigned short len);
+void _my_read(const unsigned short fd, unsigned short len, const char wstyle);
 
-unsigned short _do_read(const unsigned short fd, unsigned short len, std::string &text);
+unsigned short _do_read(const unsigned short fd , unsigned short len, std::string &text, const char wstyle);
 
 void _my_exitsys();
 

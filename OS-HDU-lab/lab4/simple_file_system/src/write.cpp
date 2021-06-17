@@ -157,6 +157,7 @@ unsigned short _do_write(const unsigned short fd, const std::string &text, const
     }
     // printf("if\n");
     // getchar();
+    openfilelist[fd].count += it;
     return it;
 }
 

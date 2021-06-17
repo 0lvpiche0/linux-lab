@@ -41,13 +41,13 @@ void my_read() {
     case 0:
         printf("Read from head(h) or from the last place(w)\n");
         std::cin>>wstyle;
-        if (wstyle != 'h' || wstyle != 'w') goto wstyle_again;
+        if (wstyle != 'h' && wstyle != 'w') goto wstyle_again;
         _my_read(fd, -1, wstyle);
         return ;
     default:
         printf("Read from head(h) or from the last place(w)\n");
         std::cin>>wstyle;
-        if (wstyle != 'h' || wstyle != 'w') goto wstyle_again;
+        if (wstyle != 'h' && wstyle != 'w') goto wstyle_again;
         _my_read(fd, len, wstyle);
         return;
     }
@@ -60,15 +60,17 @@ void _my_read(const unsigned short fd, unsigned short len, const char wstyle) {
     std::string r_str;
     unsigned short remain_len = fcb->length - openfilelist[fd].count;
     unsigned short r_len = len > remain_len ? remain_len : len;
-    _do_read(fd, r_len, r_str);
+    _do_read(fd, r_len, r_str, wstyle);
     std::cout<<r_str<<std::endl;
 }
 
 
 unsigned short _do_read(const unsigned short fd , unsigned short len, std::string &text, const char wstyle) {
     USEROPEN *useropen = &openfilelist[fd];
+    // printf("count %d\n", useropen->count);
     if (len > useropen->fcb->length - useropen->count) 
         len = useropen->fcb->length - useropen->count;
+    // printf("len :%d\n", len);
     unsigned short res = len;
     unsigned short m;
     unsigned short BlockNum;
@@ -80,6 +82,7 @@ unsigned short _do_read(const unsigned short fd , unsigned short len, std::strin
     case 'w':
         m =  useropen->count % BLOCKSIZE;
         BlockNum = jumpBlock(useropen->fcb->first, useropen->count / BLOCKSIZE);
+        break;
     default:
         return 0;
     }
@@ -90,6 +93,7 @@ unsigned short _do_read(const unsigned short fd , unsigned short len, std::strin
         BlockNum = jumpBlock(BlockNum, 1); 
     } else {
         text = std::string{diskToChar(BlockNum) + m, diskToChar(BlockNum) + m + len};
+        std::cout<<"m:"<<m<<" len:"<<len<<std::endl;
         useropen->count += len;
         return res;
     }
