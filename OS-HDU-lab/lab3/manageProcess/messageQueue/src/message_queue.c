@@ -12,6 +12,7 @@
 sem_t *io_mutex;//标准IO
 sem_t *sem_arg;
 sem_t *sem_read; //判断是否有东西读
+sem_t *sem_write; //判断是否可以写
 pthread_t pt[3];
 
 int *arg;
@@ -38,6 +39,7 @@ void *sender(void *args) {
     int flag = 1;
     
     while (flag) {
+        // sem_wait(sem_write);
         sem_wait(io_mutex);
         printf("%s\t, please input message(len less 1024):\n", thread_info_input);
         char message[MAX_MESSAGE];
@@ -51,7 +53,6 @@ void *sender(void *args) {
             strcpy(msg.mtext,message);
         }
         msgsnd(msgid, &msg, sizeof(message), 0);
-        // sem_post(sem_read);
         // sprintf(thread_info_write, "%s, write: %s",thread_info_input, msg.mtext);
         // sem_wait(io_mutex);
         // printf("%s\n", thread_info_write);
@@ -98,10 +99,12 @@ void message_queue_init() {
     printf("begin init\n");
     io_mutex = (sem_t *) malloc(sizeof(sem_t));
     sem_arg = (sem_t *) malloc(sizeof(sem_t));
+    sem_read = (sem_t *) malloc(sizeof(sem_t));
+    sem_write = (sem_t *) malloc(sizeof(sem_t));
     sem_init(io_mutex, 0, 1);
-    // sem_init(sem_write, 0, 1);
+    sem_init(sem_write, 0, 1);
     sem_init(sem_arg, 0, 1);
-    // sem_init(sem_read, 0, 0);
+    sem_init(sem_read, 0, 0);
     arg = malloc(sizeof(int));
     key = KEY_VAL;
     msgid = msgget(key, IPC_CREAT | 0666 );

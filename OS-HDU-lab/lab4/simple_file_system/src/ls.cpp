@@ -9,11 +9,6 @@ void my_ls() {
     for (unsigned short i = 2; i < FCBCOUNT; i++) {
         if (dir->fcb[i].in_use) 
             printf("%12s", dir->fcb[i].filename);
-            if (dir->fcb[i].attribute) {
-                printf(".file ");
-            } else {
-                printf(".dir ");
-            }
     }
     printf("\n");
 }
