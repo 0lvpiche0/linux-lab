@@ -3,4 +3,10 @@
 .vscode
 *.json
 myfsys
+*.cmd
 *.o
+
+*
+!*.c
+!*.cpp
+!Makefile
