@@ -3,4 +3,4 @@
 
 注意：HDU的个别实验代码是有瑕疵的，如何改进我写在Blog里面了
 
-Blog: lvpiche.xyz
+Blog: blog.lvpiche.xyz
